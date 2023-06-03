@@ -44,19 +44,19 @@ public class Solution {
 
     }
 
-    public static Tree build(Tree node, int nodeNum, int parentNum) {
-        boolean isLeaf = true;
+    public static void build(TreeNode node, int nodeNum, int parentNum) {
         for (int i: matrix.get(nodeNum)) {
             if (i != parentNum) {
-                Tree newNode = new TreeNode(values[i], colors[i] == 1 ? Color.GREEN : Color.RED, node.getDepth() + 1);
-                ((TreeNode) node).addChild(build(newNode, i, nodeNum));
-                isLeaf = false;
+                if (matrix.get(i).size() > 1) {
+                    TreeNode newNode = new TreeNode(values[i], colors[i] == 1 ? Color.GREEN : Color.RED, node.getDepth() + 1);
+                    node.addChild(newNode);
+                    build(newNode, i, nodeNum);
+                } else {
+                    TreeLeaf newNode = new TreeLeaf(values[i], colors[i] == 1 ? Color.GREEN : Color.RED, node.getDepth() + 1);
+                    node.addChild(newNode);
+                }
             }
         }
-        if(isLeaf){
-            node = new TreeLeaf(values[nodeNum], colors[nodeNum] == 1 ? Color.GREEN : Color.RED, node.getDepth());
-        }
-        return node;
     }
 
 
